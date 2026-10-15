@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surat Kecil Untukmu 💚</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;display:flex;align-items:center;
+ justify-content:center;padding:20px;font-family:Georgia,serif;
+ background:radial-gradient(circle at top,#d9ffd9,#72bd83,#174b39);
+ color:#244c37;text-align:center;overflow-x:hidden
+}
+.card{
+ width:100%;max-width:440px;background:#fffffff0;padding:28px 22px;
+ border-radius:25px;box-shadow:0 15px 45px #123b3b55
+}
+h1{font-size:27px}
+.subtitle{color:#52755d;line-height:1.6}
+#envelope{
+ margin:28px auto;width:190px;height:125px;position:relative;
+ background:#4f9c69;border-radius:8px;cursor:pointer;
+ box-shadow:0 8px 15px #245b3540;transition:transform .3s
+}
+#envelope:hover{transform:scale(1.05)}
+.flap{
+ position:absolute;inset:0;background:#8dcc91;
+ clip-path:polygon(0 0,100% 0,50% 65%);
+ z-index:2;transition:transform .7s;transform-origin:top
+}
+.heart{
+ position:absolute;z-index:3;left:0;right:0;top:43px;
+ font-size:30px
+}
+#envelope.open .flap{transform:rotateX(180deg)}
+#letter{
+ display:none;text-align:left;background:#fffdf3;
+ border:1px solid #d7e6cc;border-radius:15px;padding:20px;
+ line-height:1.8;white-space:pre-wrap;margin-top:20px
+}
+#frog{font-size:55px;margin:8px}
+button{
+ border:0;border-radius:25px;padding:12px 18px;
+ background:#32784d;color:white;font-size:15px;cursor:pointer;
+ margin:5px
+}
+button:hover{background:#245b39}
+#hint{font-size:13px;color:#65816a}
+</style>
+</head>
+<body>
+<main class="card">
+ <div id="frog">🐸💚</div>
+ <h1>Untuk Syafa Salma Aulia 💌</h1>
+ <p class="subtitle">
+   Ada surat kecil yang ingin kusampaikan.<br>
+   Tekan amplopnya, ya...
+ </p>
+
+ <div id="envelope" role="button" tabindex="0"
+      aria-label="Buka surat" onclick="bukaSurat()"
+      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();bukaSurat()}">
+   <div class="flap"></div>
+   <div class="heart">💚</div>
+ </div>
+ <p id="hint">💌 Klik amplop untuk membuka surat</p>
+
+ <article id="letter"></article>
+ <div>
+  <button onclick="bukaSurat()">Buka surat 💌</button>
+  <button onclick="putarMusik()">Musik 🎵</button>
+ </div>
+ <p id="musicInfo" style="font-size:12px;color:#65816a">
+   Musik dapat diputar setelah tombol ditekan.
+ </p>
+ <audio id="musik" loop preload="none"
+        src="menceritakanmu.mp3"></audio>
+</main>
+
+<script>
+const isiSurat = `Untuk ceweku tersayang, Syafa Salma Aulia 💚
+
+Hai, sayang...
+
+Aku cuma ingin kamu tahu kalau kamu adalah seseorang yang spesial buatku. Terima kasih sudah hadir dan memberikan warna indah dalam hari-hariku.
+
+Aku mungkin tidak selalu bisa mengungkapkan semuanya dengan kata-kata, tapi aku berharap kamu selalu merasa dihargai, disayangi, dan didengarkan.
+
+Semoga kita bisa terus saling memahami, saling mendukung, dan menciptakan banyak kenangan indah bersama.
+
+Jangan lupa bahagia dan jaga diri baik-baik, ya. Kamu pantas mendapatkan banyak hal baik di dunia ini.
+
+Dengan penuh sayang,
+Muhammad Khafi Rabbani 💚`;
+
+let sudahBuka = false;
+
+function bukaSurat(){
+ const amplop = document.getElementById('envelope');
+ const surat = document.getElementById('letter');
+ amplop.classList.add('open');
+ surat.style.display = 'block';
+ document.getElementById('hint').textContent =
+   '💚 Semoga surat kecil ini membuatmu tersenyum.';
+ if(!sudahBuka){
+   surat.textContent = isiSurat;
+   sudahBuka = true;
+ }
+}
+
+async function putarMusik(){
+ const musik = document.getElementById('musik');
+ const info = document.getElementById('musicInfo');
+ try{
+   await musik.play();
+   info.textContent = '🎵 Musik sedang diputar';
+ }catch(e){
+   info.textContent =
+    'Musik belum tersedia. Pastikan file menceritakanmu.mp3 sudah diunggah.';
+ }
+}
+</script>
+</body>
+</html>
