@@ -239,8 +239,14 @@ function typeText(el, text, speed, id) {
       if (id !== runId) return resolve();
       if (skip) { el.textContent = text; i = text.length; }
       if (i >= text.length) { el.classList.remove('cur'); return resolve(); }
-      el.textContent += text[i++]; $('scroll').scrollTop = $('scroll').scrollHeight;
-      setTimeout(next, speed);
+      const ch = text[i++], nx = text[i];
+      el.textContent += ch; $('scroll').scrollTop = $('scroll').scrollHeight;
+      let d = speed;                                   /* jeda di tiap tanda baca */
+      if (!nx || nx === ' ') {
+        if ('.?!'.includes(ch)) d += 1100;
+        else if (ch === ',') d += 600;
+      }
+      setTimeout(next, d);
     })();
   });
 }
