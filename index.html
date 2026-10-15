@@ -459,11 +459,26 @@ function typeText(el, text, speed, id) {
   });
 }
 
+
 async function openLetter() {
   if (opened) return;
   opened = true;
   const id = ++runId;
 
+  // Putar musik saat amplop atau tombol buka surat ditekan
+  const music = $('music');
+
+  music.play()
+    .then(() => {
+      $('musicBtn').textContent = '♫ matikan musik';
+      $('musicStatus').textContent = '🎵 musik sedang diputar 💚';
+    })
+    .catch(() => {
+      $('musicStatus').textContent =
+        'Musik belum bisa diputar. Periksa file menceritakanmu.mp3';
+    });
+
+  // Animasi amplop dan pop-up surat tetap berjalan
   $('envelope').classList.add('open');
   $('letterContent').innerHTML = '';
   $('backdrop').classList.add('show');
@@ -485,7 +500,8 @@ async function openLetter() {
     if (!await wait(kind === 'sign' ? 850 : 650, id)) return;
   }
 
-  $('bubble').textContent = 'suratnya selesai! semoga kamu senyum yaa 💗';
+  $('bubble').textContent =
+    'suratnya selesai! semoga kamu senyum yaa 💗';
 }
 
 function closeLetter() {
