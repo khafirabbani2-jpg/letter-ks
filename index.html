@@ -439,18 +439,21 @@ document.addEventListener('keydown', e => {
 });
 
 $('musicBtn').addEventListener('click', async () => {
-  const music = $('music');
+  const music = document.getElementById('music');
+const musicBtn = document.getElementById('musicBtn');
+
+musicBtn.addEventListener('click', async () => {
   try {
     if (music.paused) {
       await music.play();
-      $('musicBtn').textContent = '♫ matikan musik';
+      musicBtn.textContent = '♫ matikan musik';
     } else {
       music.pause();
-      $('musicBtn').textContent = '♫ nyalakan musik';
+      musicBtn.textContent = '♫ nyalakan musik';
     }
-  } catch {
-    $('status').textContent =
-      'Upload menceritakanmu.mp3 ke repositori GitHub yang sama dulu ya 🎵';
+  } catch (error) {
+    console.error('Gagal memutar musik:', error);
+    alert('Musik gagal diputar. Periksa nama file dan format MP3.');
   }
 });
 </script>
