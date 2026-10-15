@@ -3,124 +3,456 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Surat Kecil Untukmu 💚</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#d7f5e7">
+<title>♡ little love garden — untuk Syafa ♡</title>
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;display:flex;align-items:center;
- justify-content:center;padding:20px;font-family:Georgia,serif;
- background:radial-gradient(circle at top,#d9ffd9,#72bd83,#174b39);
- color:#244c37;text-align:center;overflow-x:hidden
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Patrick+Hand&display=swap');
+
+:root {
+  --green: #387b62;
+  --deep: #245b49;
+  --mint: #dff8e9;
+  --pink: #ffdce8;
+  --cream: #fffdf5;
 }
-.card{
- width:100%;max-width:440px;background:#fffffff0;padding:28px 22px;
- border-radius:25px;box-shadow:0 15px 45px #123b3b55
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Nunito, sans-serif;
+  color: var(--deep);
+  background: linear-gradient(
+    160deg,
+    #e7fff0,
+    #fef2f7 52%,
+    #fff7d8
+  );
+  overflow-x: hidden;
 }
-h1{font-size:27px}
-.subtitle{color:#52755d;line-height:1.6}
-#envelope{
- margin:28px auto;width:190px;height:125px;position:relative;
- background:#4f9c69;border-radius:8px;cursor:pointer;
- box-shadow:0 8px 15px #245b3540;transition:transform .3s
+
+button { font: inherit; cursor: pointer; border: 0; }
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: min(960px, 100%);
+  margin: auto;
+  padding: 24px 18px 42px;
+  text-align: center;
 }
-#envelope:hover{transform:scale(1.05)}
-.flap{
- position:absolute;inset:0;background:#8dcc91;
- clip-path:polygon(0 0,100% 0,50% 65%);
- z-index:2;transition:transform .7s;transform-origin:top
+
+h1 {
+  font-size: clamp(32px, 7vw, 65px);
+  color: #39785e;
 }
-.heart{
- position:absolute;z-index:3;left:0;right:0;top:43px;
- font-size:30px
+
+.name { color: #e47e9f; }
+
+.subtitle {
+  font-family: "Patrick Hand", cursive;
+  font-size: 24px;
+  color: #688a78;
 }
-#envelope.open .flap{transform:rotateX(180deg)}
-#letter{
- display:none;text-align:left;background:#fffdf3;
- border:1px solid #d7e6cc;border-radius:15px;padding:20px;
- line-height:1.8;white-space:pre-wrap;margin-top:20px
+
+.scene { position: relative; margin: 30px auto; }
+
+#envelope {
+  position: relative;
+  width: min(390px, 78vw);
+  height: 248px;
+  margin: auto;
+  cursor: pointer;
+  animation: float 3s ease-in-out infinite;
 }
-#frog{font-size:55px;margin:8px}
-button{
- border:0;border-radius:25px;padding:12px 18px;
- background:#32784d;color:white;font-size:15px;cursor:pointer;
- margin:5px
+
+@keyframes float {
+  50% { transform: translateY(-8px); }
 }
-button:hover{background:#245b39}
-#hint{font-size:13px;color:#65816a}
+
+.env-back {
+  position: absolute;
+  inset: 20px 0 0;
+  border-radius: 20px;
+  background: #91d6aa;
+  border: 3px solid white;
+}
+
+.env-paper {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  height: 170px;
+  top: 30px;
+  border-radius: 13px;
+  background: #fffdf8;
+  display: grid;
+  place-items: center;
+  color: #df88a5;
+  font: 25px "Patrick Hand", cursive;
+  transition: 1s;
+}
+
+.env-flap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 20px;
+  height: 160px;
+  background: #c2f0cd;
+  clip-path: polygon(0 0, 100% 0, 50% 70%);
+  transform-origin: top;
+  transition: transform .85s;
+  z-index: 2;
+}
+
+.env-front {
+  position: absolute;
+  inset: 20px 0 0;
+  border-radius: 20px;
+  background: #a8e5b9;
+  clip-path: polygon(0 0, 50% 63%, 100% 0, 100% 100%, 0 100%);
+}
+
+.seal {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 58%;
+  transform: translate(-50%, -50%);
+  width: 66px;
+  height: 66px;
+  border-radius: 50%;
+  background: #f39ab7;
+  color: white;
+  font-size: 29px;
+  display: grid;
+  place-items: center;
+  transition: .4s;
+}
+
+#envelope.open .env-flap {
+  transform: rotateX(180deg);
+}
+
+#envelope.open .seal {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(.2);
+}
+
+#envelope.open .env-paper {
+  top: -36px;
+  transform: translateY(-35px) scale(1.04);
+}
+
+.tap-hint {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 16px;
+  border-radius: 99px;
+  background: white;
+  border: 1px dashed #e9a6ba;
+}
+
+.mascot-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin: 20px auto;
+}
+
+.frog {
+  font-size: 52px;
+  animation: bounce 1.5s infinite;
+}
+
+@keyframes bounce {
+  50% { transform: translateY(-7px); }
+}
+
+.bubble {
+  padding: 12px;
+  background: white;
+  border: 2px solid #c6e8d2;
+  border-radius: 18px;
+}
+
+#letterBackdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 11;
+  background: #234d3dcc;
+  backdrop-filter: blur(7px);
+}
+
+#letterBackdrop.show { display: block; }
+
+#letter {
+  display: none;
+  position: fixed;
+  z-index: 12;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(690px, calc(100vw - 28px));
+  max-height: 82vh;
+  overflow-y: auto;
+  padding: clamp(22px, 5vw, 43px);
+  text-align: left;
+  line-height: 1.85;
+  background: var(--cream);
+  border: 3px solid white;
+  border-radius: 22px;
+  box-shadow: 0 14px 0 #cdebd7, 0 24px 45px #66987940;
+  animation: appear .65s ease both;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -46%) scale(.94);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.line { margin-bottom: 14px; white-space: pre-wrap; }
+.line.h { color: #d87e9c; font-weight: 900; }
+.line.big {
+  font: bold 32px "Patrick Hand", cursive;
+  text-align: center;
+  color: #4a9a70;
+  background: #e8f8eb;
+  padding: 12px;
+  border-radius: 15px;
+}
+.line.sign {
+  text-align: right;
+  font: 21px "Patrick Hand", cursive;
+}
+.line.ps { text-align: center; color: #d47c9a; }
+
+#letterClose {
+  position: sticky;
+  top: 0;
+  float: right;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #ffe2eb;
+  color: #b96683;
+  font-size: 22px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.btn {
+  border-radius: 99px;
+  padding: 12px 18px;
+  font-weight: 900;
+}
+
+.primary { background: #559d76; color: white; }
+.secondary { background: white; color: #6a927c; }
+.pink { background: #ffe2eb; color: #b96683; }
+
+.footer {
+  font: 18px "Patrick Hand", cursive;
+  color: #7da28a;
+}
+
+@media(max-width:480px) {
+  #envelope { height: 220px; }
+  .env-paper { height: 150px; }
+  .env-flap { height: 145px; }
+  #letter { padding: 24px 20px; }
+}
 </style>
 </head>
+
 <body>
-<main class="card">
- <div id="frog">🐸💚</div>
- <h1>Untuk Syafa Salma Aulia 💌</h1>
- <p class="subtitle">
-   Ada surat kecil yang ingin kusampaikan.<br>
-   Tekan amplopnya, ya...
- </p>
+<main class="wrap">
+  <div>🌷 A TINY LOVE LETTER ♡</div>
+  <h1>hi, <span class="name">Syafa!</span> 🌷</h1>
+  <p class="subtitle">
+    ada sesuatu yang manis khusus buat kamu...
+  </p>
 
- <div id="envelope" role="button" tabindex="0"
-      aria-label="Buka surat" onclick="bukaSurat()"
-      onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();bukaSurat()}">
-   <div class="flap"></div>
-   <div class="heart">💚</div>
- </div>
- <p id="hint">💌 Klik amplop untuk membuka surat</p>
+  <section class="scene">
+    <div id="envelope" role="button" tabindex="0"
+         aria-label="Buka amplop surat">
+      <div class="env-back"></div>
+      <div class="env-paper">buat kamu ♡</div>
+      <div class="env-flap"></div>
+      <div class="env-front"></div>
+      <div class="seal">♥</div>
+    </div>
+    <div class="tap-hint" id="hint">
+      ☝️ tap amplopnya, cutie! 💌
+    </div>
+  </section>
 
- <article id="letter"></article>
- <div>
-  <button onclick="bukaSurat()">Buka surat 💌</button>
-  <button onclick="putarMusik()">Musik 🎵</button>
- </div>
- <p id="musicInfo" style="font-size:12px;color:#65816a">
-   Musik dapat diputar setelah tombol ditekan.
- </p>
- <audio id="musik" loop preload="none"
-        src="menceritakanmu.mp3"></audio>
+  <div class="mascot-row">
+    <div class="frog" id="frog">🐸</div>
+    <div class="bubble" id="frogText">
+      pssst... pak pos kodok datang bawa surat! 📨
+    </div>
+  </div>
+
+  <div id="letterBackdrop"></div>
+  <article id="letter">
+    <button id="letterClose" aria-label="Tutup surat">×</button>
+    <div id="letterContent"></div>
+  </article>
+
+  <div class="controls">
+    <button class="btn primary" id="openBtn">buka surat 💌</button>
+    <button class="btn secondary" id="musicBtn">♫ nyalakan musik</button>
+    <button class="btn pink" id="replayBtn">mulai lagi ↻</button>
+  </div>
+
+  <p id="status">dibuat dengan banyak cinta dan sedikit bantuan kodok 🐸</p>
+  <p class="footer">made with ♥ by Khafi · for Syafa only</p>
+
+  <audio id="music" src="menceritakanmu.mp3" loop></audio>
 </main>
 
 <script>
-const isiSurat = `Untuk ceweku tersayang, Syafa Salma Aulia 💚
+const lines = [
+  ['h', 'untuk ceweku tersayang, Syafa Salma Aulia,'],
+  ['p', 'haaiii sayanggku... surat ini sederhana, tapi isinya semua hal yang selama ini sulit aku ucapkan.'],
+  ['big', 'aku bangga banget punya kamu.'],
+  ['p', 'bangga pada caramu tersenyum di hari yang berat, pada hatimu yang lembut, dan pada semua usaha yang kamu lakukan diam-diam.'],
+  ['p', 'terima kasih ya sayang sudah jadi rumah tempatku pulang, dan alasanku ingin jadi lebih baik setiap hari.'],
+  ['p', 'apa pun yang terjadi, aku selalu ada di sisimu.'],
+  ['sign', 'dengan seluruh cinta,'],
+  ['sign', 'Muhammad Khafi Rabbani'],
+  ['ps', 'kalau sekarang kamu senyum-senyum sendiri, berarti suratnya berhasil. hehe ♡']
+];
 
-Hai, sayang...
+const $ = id => document.getElementById(id);
+let opened = false;
+let runId = 0;
 
-Aku cuma ingin kamu tahu kalau kamu adalah seseorang yang spesial buatku. Terima kasih sudah hadir dan memberikan warna indah dalam hari-hariku.
-
-Aku mungkin tidak selalu bisa mengungkapkan semuanya dengan kata-kata, tapi aku berharap kamu selalu merasa dihargai, disayangi, dan didengarkan.
-
-Semoga kita bisa terus saling memahami, saling mendukung, dan menciptakan banyak kenangan indah bersama.
-
-Jangan lupa bahagia dan jaga diri baik-baik, ya. Kamu pantas mendapatkan banyak hal baik di dunia ini.
-
-Dengan penuh sayang,
-Muhammad Khafi Rabbani 💚`;
-
-let sudahBuka = false;
-
-function bukaSurat(){
- const amplop = document.getElementById('envelope');
- const surat = document.getElementById('letter');
- amplop.classList.add('open');
- surat.style.display = 'block';
- document.getElementById('hint').textContent =
-   '💚 Semoga surat kecil ini membuatmu tersenyum.';
- if(!sudahBuka){
-   surat.textContent = isiSurat;
-   sudahBuka = true;
- }
+function typeText(el, text, speed = 48, id = runId) {
+  return new Promise(resolve => {
+    let i = 0;
+    function tick() {
+      if (id !== runId) return resolve();
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(tick, speed);
+      } else resolve();
+    }
+    tick();
+  });
 }
 
-async function putarMusik(){
- const musik = document.getElementById('musik');
- const info = document.getElementById('musicInfo');
- try{
-   await musik.play();
-   info.textContent = '🎵 Musik sedang diputar';
- }catch(e){
-   info.textContent =
-    'Musik belum tersedia. Pastikan file menceritakanmu.mp3 sudah diunggah.';
- }
+function wait(ms, id = runId) {
+  return new Promise(resolve => {
+    setTimeout(() => resolve(id === runId), ms);
+  });
 }
+
+async function openLetter() {
+  if (opened) return;
+  opened = true;
+  const id = ++runId;
+
+  $('envelope').classList.add('open');
+  $('hint').textContent = 'YAY! surat rahasianya terbuka! 💗';
+  $('openBtn').textContent = 'surat sudah terbuka ♡';
+  $('letterContent').innerHTML = '';
+
+  setTimeout(async () => {
+    if (id !== runId) return;
+
+    document.body.style.overflow = 'hidden';
+    $('letterBackdrop').classList.add('show');
+    $('letter').style.display = 'block';
+
+    for (const [kind, text] of lines) {
+      if (id !== runId) return;
+
+      const p = document.createElement('p');
+      p.className = 'line ' + kind;
+      $('letterContent').appendChild(p);
+
+      await typeText(p, text, kind === 'big' ? 75 : 48, id);
+      if (id !== runId) return;
+
+      $('letter').scrollTop = $('letter').scrollHeight;
+      if (!await wait(kind === 'sign' ? 850 : 650, id)) return;
+    }
+
+    $('status').textContent = 'surat selesai dibaca! 💌';
+  }, 350);
+}
+
+function closeLetter() {
+  ++runId;
+  $('letter').style.display = 'none';
+  $('letterBackdrop').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function resetLetter() {
+  closeLetter();
+  opened = false;
+  $('envelope').classList.remove('open');
+  $('hint').textContent = '☝️ tap amplopnya, cutie! 💌';
+  $('openBtn').textContent = 'buka surat 💌';
+  $('letterContent').innerHTML = '';
+  $('status').textContent =
+    'dibuat dengan banyak cinta dan sedikit bantuan kodok 🐸';
+  $('music').pause();
+  $('music').currentTime = 0;
+  $('musicBtn').textContent = '♫ nyalakan musik';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+$('envelope').addEventListener('click', openLetter);
+$('openBtn').addEventListener('click', openLetter);
+$('replayBtn').addEventListener('click', resetLetter);
+$('letterClose').addEventListener('click', closeLetter);
+$('letterBackdrop').addEventListener('click', closeLetter);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLetter();
+  if ((e.key === 'Enter' || e.key === ' ') &&
+      document.activeElement === $('envelope')) {
+    e.preventDefault();
+    openLetter();
+  }
+});
+
+$('musicBtn').addEventListener('click', async () => {
+  const music = $('music');
+  try {
+    if (music.paused) {
+      await music.play();
+      $('musicBtn').textContent = '♫ matikan musik';
+    } else {
+      music.pause();
+      $('musicBtn').textContent = '♫ nyalakan musik';
+    }
+  } catch {
+    $('status').textContent =
+      'Upload menceritakanmu.mp3 ke repositori GitHub yang sama dulu ya 🎵';
+  }
+});
 </script>
 </body>
 </html>
