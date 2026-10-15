@@ -4,7 +4,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>♡♡</title>
+<meta name="theme-color" content="#d9f7df">
+<title>♡ A Letter for Syafa ♡</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Patrick+Hand&display=swap');
@@ -15,7 +16,6 @@
   --green: #4c9b76;
   --dark: #356b50;
   --pink: #f58eae;
-  --mint: #d9f7df;
   --cream: #fffdf6;
 }
 
@@ -84,9 +84,16 @@ h1 span { color: var(--pink); }
   animation: envelopeFloat 3s ease-in-out infinite;
   filter: drop-shadow(0 15px 15px #4a93652a);
   transition: transform .3s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .envelope:hover { transform: scale(1.04); }
+
+.envelope:focus-visible {
+  outline: 3px dashed var(--pink);
+  outline-offset: 8px;
+  border-radius: 18px;
+}
 
 @keyframes envelopeFloat {
   0%, 100% { translate: 0 0; }
@@ -135,7 +142,7 @@ h1 span { color: var(--pink); }
   border-radius: 18px;
   background: #a5e5b5;
   clip-path: polygon(0 0, 50% 65%, 100% 0, 100% 100%, 0 100%);
-  border: 2px solid #fff;
+  border: 2px solid white;
 }
 
 .seal {
@@ -195,10 +202,7 @@ h1 span { color: var(--pink); }
   background: transparent;
   font-size: 62px;
   animation: frogBounce 1.8s ease-in-out infinite;
-  transition: transform .2s;
 }
-
-.frog:hover { transform: rotate(-12deg) scale(1.2); }
 
 @keyframes frogBounce {
   0%, 100% { translate: 0 0; }
@@ -228,14 +232,10 @@ h1 span { color: var(--pink); }
   padding: 13px 22px;
   font-weight: 900;
   box-shadow: 0 5px 0 #00000012;
-  transition: transform .2s, box-shadow .2s;
+  transition: transform .2s;
 }
 
-.btn:hover {
-  transform: translateY(-4px) rotate(-1deg);
-  box-shadow: 0 8px 0 #00000010;
-}
-
+.btn:hover { transform: translateY(-3px); }
 .btn-green { background: #56a77e; color: white; }
 .btn-white { background: white; color: #4c916d; }
 .btn-pink { background: #f69bb7; color: white; }
@@ -253,7 +253,6 @@ h1 span { color: var(--pink); }
   font-size: 13px;
 }
 
-/* Hujan hati dan bunga */
 .particle {
   position: fixed;
   top: -35px;
@@ -270,7 +269,6 @@ h1 span { color: var(--pink); }
   100% { transform: translate(var(--drift), 115vh) rotate(420deg); }
 }
 
-/* Surat pop-up */
 .backdrop {
   display: none;
   position: fixed;
@@ -299,6 +297,7 @@ h1 span { color: var(--pink); }
   border-radius: 24px;
   box-shadow: 0 12px 0 #cdebd7, 0 25px 70px #163b2b66;
   line-height: 1.9;
+  overscroll-behavior: contain;
 }
 
 .letter.show {
@@ -326,6 +325,7 @@ h1 span { color: var(--pink); }
 
 .letter-line { margin: 12px 0; white-space: pre-wrap; }
 .letter-line.head { color: #df82a0; font-weight: 900; }
+
 .letter-line.big {
   font: 30px 'Patrick Hand', cursive;
   color: #429569;
@@ -334,10 +334,12 @@ h1 span { color: var(--pink); }
   text-align: center;
   border-radius: 14px;
 }
+
 .letter-line.sign {
   text-align: right;
   font: 22px 'Patrick Hand', cursive;
 }
+
 .letter-line.ps { text-align: center; color: #d87c9c; }
 
 body.modal-open { overflow: hidden; }
@@ -392,18 +394,23 @@ body.modal-open { overflow: hidden; }
     <button class="btn btn-pink" id="resetBtn">↻ mulai lagi</button>
   </div>
 
-  <div class="music-status" id="musicStatus">🎵 musik: menceritakanmu.mp3</div>
+  <div class="music-status" id="musicStatus">
+    🎵 musik: menceritakanmu.mp3
+  </div>
   <p>🤍 dibuat dengan banyak cinta dan sedikit bantuan kodok 🐸</p>
   <p class="footer">made with ♥ by Khafi · for Syafa only</p>
 </main>
 
 <div class="backdrop" id="backdrop"></div>
+
 <article class="letter" id="letter" aria-label="Surat cinta">
   <button class="close" id="closeBtn" aria-label="Tutup surat">×</button>
   <div id="letterContent"></div>
 </article>
 
-<audio id="music" src="menceritakanmu.mp3" loop preload="auto"></audio>
+<!-- Pastikan MP3 berada di folder yang sama dengan index.html -->
+<audio id="music" src="./menceritakanmu.mp3"
+       loop preload="auto" playsinline></audio>
 
 <script>
 const $ = id => document.getElementById(id);
@@ -422,6 +429,7 @@ const letterLines = [
 
 let opened = false;
 let runId = 0;
+let musicStarted = false;
 
 function makeParticles() {
   const symbols = ['🤍', '🌸', '🌷', '✨', '🍃', '💕'];
@@ -436,7 +444,6 @@ function makeParticles() {
   setTimeout(() => p.remove(), 14000);
 }
 
-// Animasi terus berjalan, tetapi jumlah partikel dibatasi.
 setInterval(makeParticles, 650);
 
 function wait(ms, id) {
@@ -449,8 +456,7 @@ function typeText(el, text, speed, id) {
   return new Promise(resolve => {
     let i = 0;
     function next() {
-      if (id !== runId) return resolve();
-      if (i >= text.length) return resolve();
+      if (id !== runId || i >= text.length) return resolve();
       el.textContent += text[i++];
       $('letter').scrollTop = $('letter').scrollHeight;
       setTimeout(next, speed);
@@ -459,26 +465,43 @@ function typeText(el, text, speed, id) {
   });
 }
 
+/*
+ * Dipanggil langsung dari klik/tap pengguna.
+ * Pemanggilan play() dilakukan sebelum animasi dan await,
+ * agar tetap berada dalam konteks interaksi pengguna.
+ */
+function startMusicFromTap() {
+  const music = $('music');
+
+  if (!music.paused) {
+    musicStarted = true;
+    return;
+  }
+
+  const playAttempt = music.play();
+
+  if (playAttempt && typeof playAttempt.then === 'function') {
+    playAttempt.then(() => {
+      musicStarted = true;
+      $('musicBtn').textContent = '♫ matikan musik';
+      $('musicStatus').textContent = '🎵 musik sedang diputar 💚';
+    }).catch(() => {
+      musicStarted = false;
+      $('musicStatus').textContent =
+        'Musik belum mulai. Tekan tombol ♫ nyalakan musik.';
+      $('musicBtn').textContent = '♫ nyalakan musik';
+    });
+  }
+}
 
 async function openLetter() {
+  // Mulai musik pada sentuhan yang sama dengan pembukaan amplop.
+  startMusicFromTap();
+
   if (opened) return;
   opened = true;
   const id = ++runId;
 
-  // Putar musik saat amplop atau tombol buka surat ditekan
-  const music = $('music');
-
-  music.play()
-    .then(() => {
-      $('musicBtn').textContent = '♫ matikan musik';
-      $('musicStatus').textContent = '🎵 musik sedang diputar 💚';
-    })
-    .catch(() => {
-      $('musicStatus').textContent =
-        'Musik belum bisa diputar. Periksa file menceritakanmu.mp3';
-    });
-
-  // Animasi amplop dan pop-up surat tetap berjalan
   $('envelope').classList.add('open');
   $('letterContent').innerHTML = '';
   $('backdrop').classList.add('show');
@@ -509,6 +532,7 @@ function closeLetter() {
   $('letter').classList.remove('show');
   $('backdrop').classList.remove('show');
   document.body.classList.remove('modal-open');
+  // Musik tetap berjalan saat surat ditutup.
 }
 
 function resetLetter() {
@@ -517,20 +541,26 @@ function resetLetter() {
   $('envelope').classList.remove('open');
   $('letterContent').innerHTML = '';
   $('openBtn').textContent = '💌 buka surat';
-  $('bubble').textContent = 'pssst... pak pos kodok datang bawa surat! 📨';
+
+  $('bubble').textContent =
+    'pssst... pak pos kodok datang bawa surat! 📨';
+
   $('music').pause();
   $('music').currentTime = 0;
+  musicStarted = false;
   $('musicBtn').textContent = '♫ nyalakan musik';
   $('musicStatus').textContent = '🎵 musik: menceritakanmu.mp3';
 }
 
 $('envelope').addEventListener('click', openLetter);
+
 $('envelope').addEventListener('keydown', e => {
   if (e.key === 'Enter' || e.key === ' ') {
     e.preventDefault();
     openLetter();
   }
 });
+
 $('openBtn').addEventListener('click', openLetter);
 $('resetBtn').addEventListener('click', resetLetter);
 $('closeBtn').addEventListener('click', closeLetter);
@@ -548,16 +578,15 @@ $('frog').addEventListener('click', () => {
     'kodoknya ikut salting hehe 💗',
     'semoga harimu semanis stroberi 🍓'
   ];
+
   $('bubble').textContent =
     messages[Math.floor(Math.random() * messages.length)];
-  $('frog').animate(
-    [
-      { transform: 'translateY(0) rotate(0)' },
-      { transform: 'translateY(-28px) rotate(-12deg)' },
-      { transform: 'translateY(0) rotate(0)' }
-    ],
-    { duration: 550, easing: 'ease-out' }
-  );
+
+  $('frog').animate([
+    { transform: 'translateY(0) rotate(0)' },
+    { transform: 'translateY(-28px) rotate(-12deg)' },
+    { transform: 'translateY(0) rotate(0)' }
+  ], { duration: 550, easing: 'ease-out' });
 });
 
 $('musicBtn').addEventListener('click', async () => {
@@ -566,17 +595,24 @@ $('musicBtn').addEventListener('click', async () => {
   try {
     if (music.paused) {
       await music.play();
+      musicStarted = true;
       $('musicBtn').textContent = '♫ matikan musik';
       $('musicStatus').textContent = '🎵 musik sedang diputar 💚';
     } else {
       music.pause();
+      musicStarted = false;
       $('musicBtn').textContent = '♫ nyalakan musik';
       $('musicStatus').textContent = '🎵 musik dijeda';
     }
   } catch (error) {
     $('musicStatus').textContent =
-      'Musik gagal diputar. Periksa file menceritakanmu.mp3';
+      'Musik gagal diputar. Pastikan file menceritakanmu.mp3 tersedia.';
   }
+});
+
+$('music').addEventListener('error', () => {
+  $('musicStatus').textContent =
+    'File musik tidak ditemukan. Periksa nama file MP3 di GitHub.';
 });
 </script>
 </body>
